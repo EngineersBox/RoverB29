@@ -34,11 +34,11 @@ void setup() {
   
 
   // Setup communications
-  //Serial.begin(9600); //coms with computer
-  //BTSerial.begin(9600); //coms with Bluetooth
+  Serial.begin(9600); //coms with computer
+  BTSerial.begin(9600); //coms with Bluetooth
   
   // Display message to serial monitor
-  //Serial.println("Begin communication");
+  Serial.println("Begin communication");
 }
 
 void move (state c_state) {
@@ -62,18 +62,18 @@ void move (state c_state) {
     case LEFT:
       digitalWrite (motor1_enable, HIGH);
       digitalWrite (motor2_enable, HIGH);
-      digitalWrite (motor1_inputA, LOW);
-      digitalWrite (motor1_inputB, HIGH);
-      digitalWrite (motor2_inputA, HIGH);
-      digitalWrite (motor2_inputB, LOW);
-      break;
-    case RIGHT:  
-      digitalWrite (motor1_enable, HIGH);
-      digitalWrite (motor2_enable, HIGH);
       digitalWrite (motor1_inputA, HIGH);
       digitalWrite (motor1_inputB, LOW);
       digitalWrite (motor2_inputA, LOW);
       digitalWrite (motor2_inputB, HIGH);
+      break;
+    case RIGHT: 
+      digitalWrite (motor1_enable, HIGH);
+      digitalWrite (motor2_enable, HIGH);
+      digitalWrite (motor1_inputA, LOW);
+      digitalWrite (motor1_inputB, HIGH);
+      digitalWrite (motor2_inputA, HIGH);
+      digitalWrite (motor2_inputB, LOW);
       break;
     case STOPPED:
       digitalWrite(motor1_enable, LOW);
@@ -82,7 +82,7 @@ void move (state c_state) {
   }
 }
 
-void loop() {
+void shittyTest() {
   delay(4000);
   
   for (int i = 0; i < 4; i++) {
@@ -90,15 +90,24 @@ void loop() {
     move(FORWARD);
     delay(5000);
     
-    // TURN LEFT
-    move(LEFT);
+    move(RIGHT);
+    delay(1050);
+
+    move(FORWARD);
+    delay(5000);
+
+    move (LEFT);
     delay(1050);
   }
   move(STOPPED);
+}
 
-  /*if (BTSerial.available() ) {
-    button = BTSerial.read()
-    Serial.println(BTSerial.read());
+void loop() {
+  //shittyTest();
+
+  if (BTSerial.available() ) {
+    button = BTSerial.read();
+    Serial.println(button);
 
     switch (button) {
       case 54: // RIGHT
@@ -119,6 +128,5 @@ void loop() {
     }
   }
   move(current_state);
-  */
   
 }
